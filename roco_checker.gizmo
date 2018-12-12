@@ -1,0 +1,211 @@
+set cut_paste_input [stack 0]
+version 10.5 v7
+push $cut_paste_input
+Group {
+ name Roto_Checker4
+ tile_color 0xffae53ff
+ selected true
+ xpos 180
+ ypos -658
+ addUserKnob {20 checker l Checker}
+ addUserKnob {4 over l Over t "Choose between the prefrred visibility modes to test your matte. For `Overlay` then you can choose between colors. For `Overlap` choose between colors and the checkerboard." M {Overlay Overlap "" "" ""}}
+ over Overlap
+ addUserKnob {4 overlay l Overlay t "Choose between the colors to see the edges better. " M {Pink Blue Yellow Green Red "" "" "" "" "" ""}}
+ addUserKnob {41 mix l "Color Mix" t "Adjust the Mix of the preferred color." T Keymix2.mix}
+ addUserKnob {4 overlap l Overlap t "Choose between the colors and checkerboard to see the edges better. " M {Grey Checkerboard Black White "" ""}}
+ overlap Checkerboard
+ addUserKnob {41 boxsize l "Box size" t "Adjust the size of the checkerboard IF that is selected." T CheckerBoard2.boxsize}
+ addUserKnob {6 invert l "Invert Alpha" +STARTLINE}
+ invert true
+ addUserKnob {26 fg l "Adjust RGB"}
+ addUserKnob {41 saturation t "Allows to change the saturation of the plate" T ColorCorrect1.saturation}
+ addUserKnob {41 contrast t "Allows to change the contrast of the plate" T ColorCorrect1.contrast}
+ addUserKnob {41 gamma t "Allows to change the gamma of the plate" T ColorCorrect1.gamma}
+ addUserKnob {41 gain t "Allows to change the gain of the plate" T ColorCorrect1.gain}
+ addUserKnob {26 format_1 l Format}
+ addUserKnob {41 type T Reformat1.type}
+ addUserKnob {41 format l "output format" T Reformat1.format}
+ addUserKnob {41 disable_1 l disable T Reformat1.disable}
+ addUserKnob {26 ""}
+ addUserKnob {26 TEXT l "" +STARTLINE T "<font color=#808080 size=\"5\" >1.01 version</font>"}
+ addUserKnob {26 HeadlineB l "" +STARTLINE T "<font color=#808080 size=\"2\">Roto Checker© by Attila Gasparetz</font>"}
+}
+ Input {
+  inputs 0
+  name Matte
+  xpos 730
+  ypos -130
+  number 1
+ }
+ Invert {
+  channels alpha
+  name Invert1
+  xpos 730
+  ypos 128
+  disable {{parent.invert}}
+ }
+ Input {
+  inputs 0
+  name RGB
+  xpos 400
+  ypos -130
+ }
+ ColorCorrect {
+  shadows 0
+  midtones 0
+  highlights 0
+  name ColorCorrect1
+  xpos 400
+  ypos 14
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 400
+  ypos 128
+ }
+ Reformat {
+  name Reformat1
+  selected true
+  xpos 400
+  ypos 302
+ }
+ Dot {
+  name Dot38
+  xpos 434
+  ypos 498
+ }
+set Nf116750 [stack 0]
+ Dot {
+  name Dot39
+  xpos 544
+  ypos 498
+ }
+set Nf19ce80 [stack 0]
+ Premult {
+  name Premult2
+  xpos 620
+  ypos 494
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 1 1 0}
+  color_panelDropped true
+  name Constant8
+  xpos 840
+  ypos 254
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 0 0}
+  color_panelDropped true
+  name Constant7
+  xpos 730
+  ypos 254
+ }
+ CheckerBoard2 {
+  inputs 0
+  centerlinewidth 0
+  name CheckerBoard2
+  xpos 620
+  ypos 254
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color 0.18
+  name Constant4
+  xpos 510
+  ypos 254
+ }
+ Switch {
+  inputs 4
+  which {{parent.overlap}}
+  name Grey_or_Checker
+  xpos 730
+  ypos 374
+ }
+ Merge2 {
+  inputs 2
+  name Merge21
+  xpos 730
+  ypos 494
+ }
+push $Nf116750
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  name Constant3
+  xpos 180
+  ypos 446
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 1 0 0}
+  color_panelDropped true
+  name Constant2
+  xpos 70
+  ypos 446
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 1 0 0}
+  color_panelDropped true
+  name Constant1
+  xpos -40
+  ypos 446
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 1 0}
+  color_panelDropped true
+  name Constant5
+  xpos -150
+  ypos 446
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 1 0}
+  color_panelDropped true
+  name Constant6
+  xpos -260
+  ypos 446
+ }
+ Switch {
+  inputs 5
+  which {{parent.overlay}}
+  name Colors
+  xpos -40
+  ypos 662
+ }
+push $Nf19ce80
+ Keymix {
+  inputs 3
+  mix 0.2
+  name Keymix2
+  xpos 510
+  ypos 656
+ }
+ Switch {
+  inputs 2
+  which {{parent.over}}
+  name OverlayOrOverlap
+  xpos 730
+  ypos 662
+ }
+ Output {
+  name Output1
+  xpos 730
+  ypos 758
+ }
+end_group
