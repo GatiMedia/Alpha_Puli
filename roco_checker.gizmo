@@ -1,14 +1,16 @@
 set cut_paste_input [stack 0]
-version 10.5 v7
+version 11.2 v3
+push 0
 push $cut_paste_input
 Group {
- name Roto_Checker4
+ inputs 2
+ name Alpha_Puli
  tile_color 0xffae53ff
  selected true
- xpos 180
- ypos -658
+ xpos -1690
+ ypos 974
  addUserKnob {20 checker l Checker}
- addUserKnob {4 over l Over t "Choose between the prefrred visibility modes to test your matte. For `Overlay` then you can choose between colors. For `Overlap` choose between colors and the checkerboard." M {Overlay Overlap "" "" ""}}
+ addUserKnob {4 over l Over t "Choose between the preferred visibility modes to test your matte. For `Overlay` you can choose between colors. For `Overlap` choose between colors and the checkerboard." M {Overlay Overlap "" "" "" ""}}
  over Overlap
  addUserKnob {4 overlay l Overlay t "Choose between the colors to see the edges better. " M {Pink Blue Yellow Green Red "" "" "" "" "" ""}}
  addUserKnob {41 mix l "Color Mix" t "Adjust the Mix of the preferred color." T Keymix2.mix}
@@ -16,39 +18,89 @@ Group {
  overlap Checkerboard
  addUserKnob {41 boxsize l "Box size" t "Adjust the size of the checkerboard IF that is selected." T CheckerBoard2.boxsize}
  addUserKnob {6 invert l "Invert Alpha" +STARTLINE}
- invert true
  addUserKnob {26 fg l "Adjust RGB"}
  addUserKnob {41 saturation t "Allows to change the saturation of the plate" T ColorCorrect1.saturation}
  addUserKnob {41 contrast t "Allows to change the contrast of the plate" T ColorCorrect1.contrast}
  addUserKnob {41 gamma t "Allows to change the gamma of the plate" T ColorCorrect1.gamma}
  addUserKnob {41 gain t "Allows to change the gain of the plate" T ColorCorrect1.gain}
+ addUserKnob {26 chcker l "Adjust Alpha"}
+ addUserKnob {4 checker_1 l "Checker " t "Allows to check for holes ( high values ) and rogue alpha patches ( low values ) on the `matte`. " M {"Leave Alpha" "Check high values" "Check low values " "" ""}}
+ addUserKnob {6 exposure l "Show wrong values" t "Highlights the alpha values that are lower than 0 or higher than 1 with red. " +STARTLINE}
  addUserKnob {26 format_1 l Format}
  addUserKnob {41 type T Reformat1.type}
  addUserKnob {41 format l "output format" T Reformat1.format}
  addUserKnob {41 disable_1 l disable T Reformat1.disable}
  addUserKnob {26 ""}
+ addUserKnob {22 tuts l Tutorial t "Have a look at the tutorial. " -STARTLINE T "import os\nimport sys\n\ntry:\n    import subprocess\n    def _run(cmd, shell, wait):\n        opener = subprocess.Popen(cmd, shell=shell)\n        if wait:\n            opener.wait()\n        return opener.pid\nexcept ImportError:\n    import popen2\n    def _run(cmd, shell, wait):\n        opener = popen2.Popen3(cmd)\n        if wait:\n            opener.wait()\n        return opener.pid\n\ndef _open(url, wait=0):\n    if sys.platform == \"darwin\":\n        cmd = \[\"open\", url]\n    elif hasattr(os, \"startfile\"):\n        return os.startfile(url)\n    elif os.environ.has_key(\"KDE_FULL_SESSION\") or os.environ.has_key(\"KDE_MULTIHEAD\") or \\\n        os.environ.has_key(\"GNOME_DESKTOP_SESSION_ID\") or os.environ.has_key(\"GNOME_KEYRING_SOCKET\"):\n        cmd = \[\"xdg-open\", url]\n    else:\n        raise OSError, \"Desktop not supported.\"\n\n    return _run(cmd, 0, wait)\n\n_open('www.gatimedia.co.uk/alpha-puli')\n"}
+ addUserKnob {26 ""}
  addUserKnob {26 TEXT l "" +STARTLINE T "<font color=#808080 size=\"5\" >1.01 version</font>"}
- addUserKnob {26 HeadlineB l "" +STARTLINE T "<font color=#808080 size=\"2\">Roto Checker© by Attila Gasparetz</font>"}
+ addUserKnob {26 HeadlineB l "" +STARTLINE T "<font color=#808080 size=\"2\">Alpha Puli© by Attila Gasparetz</font>"}
 }
  Input {
   inputs 0
   name Matte
   xpos 730
-  ypos -130
+  ypos 134
   number 1
+ }
+ Dot {
+  name Dot1
+  xpos 764
+  ypos 210
+ }
+set N117fa000 [stack 0]
+ Dot {
+  name Dot2
+  xpos 874
+  ypos 210
+ }
+set N11312380 [stack 0]
+ Dot {
+  name Dot3
+  xpos 984
+  ypos 210
+ }
+set N11891880 [stack 0]
+ Grade {
+  channels alpha
+  gamma 10
+  name Grade_LOW_VALUE
+  xpos 950
+  ypos 248
+ }
+push $N11312380
+ Grade {
+  channels alpha
+  gamma 1e-06
+  name Grade_HIGH_VALUE
+  xpos 840
+  ypos 248
+ }
+push $N117fa000
+ Switch {
+  inputs 3
+  which {{parent.checker_1}}
+  name Switch_CHECKER
+  xpos 730
+  ypos 326
+ }
+ Invert {
+  name Invert2
+  xpos 730
+  ypos 392
  }
  Invert {
   channels alpha
   name Invert1
   xpos 730
-  ypos 128
+  ypos 608
   disable {{parent.invert}}
  }
  Input {
   inputs 0
   name RGB
   xpos 400
-  ypos -130
+  ypos 134
  }
  ColorCorrect {
   shadows 0
@@ -56,38 +108,59 @@ Group {
   highlights 0
   name ColorCorrect1
   xpos 400
-  ypos 14
+  ypos 206
  }
+ Dot {
+  name Dot7
+  xpos 434
+  ypos 522
+ }
+set N11330000 [stack 0]
  Copy {
   inputs 2
   from0 rgba.alpha
   to0 rgba.alpha
   name Copy1
   xpos 400
-  ypos 128
+  ypos 608
  }
  Reformat {
   name Reformat1
-  selected true
   xpos 400
-  ypos 302
+  ypos 830
  }
  Dot {
   name Dot38
   xpos 434
-  ypos 498
+  ypos 954
  }
-set Nf116750 [stack 0]
+set N117d9880 [stack 0]
+ Dot {
+  name Dot4
+  xpos 434
+  ypos 1386
+ }
+ Constant {
+  inputs 0
+  channels alpha
+  color {1 1 1 1}
+  color_panelDropped true
+  name Constant10
+  xpos 510
+  ypos 1233
+ }
+set N1192aa80 [stack 0]
+push $N117d9880
  Dot {
   name Dot39
   xpos 544
-  ypos 498
+  ypos 954
  }
-set Nf19ce80 [stack 0]
+set Nef1fb880 [stack 0]
  Premult {
   name Premult2
   xpos 620
-  ypos 494
+  ypos 950
  }
  Constant {
   inputs 0
@@ -96,7 +169,7 @@ set Nf19ce80 [stack 0]
   color_panelDropped true
   name Constant8
   xpos 840
-  ypos 254
+  ypos 710
  }
  Constant {
   inputs 0
@@ -105,14 +178,14 @@ set Nf19ce80 [stack 0]
   color_panelDropped true
   name Constant7
   xpos 730
-  ypos 254
+  ypos 710
  }
  CheckerBoard2 {
   inputs 0
   centerlinewidth 0
   name CheckerBoard2
   xpos 620
-  ypos 254
+  ypos 710
  }
  Constant {
   inputs 0
@@ -120,22 +193,22 @@ set Nf19ce80 [stack 0]
   color 0.18
   name Constant4
   xpos 510
-  ypos 254
+  ypos 710
  }
  Switch {
   inputs 4
   which {{parent.overlap}}
   name Grey_or_Checker
   xpos 730
-  ypos 374
+  ypos 830
  }
  Merge2 {
   inputs 2
   name Merge21
   xpos 730
-  ypos 494
+  ypos 950
  }
-push $Nf116750
+push $N117d9880
  Constant {
   inputs 0
   channels rgb
@@ -143,7 +216,7 @@ push $Nf116750
   color_panelDropped true
   name Constant3
   xpos 180
-  ypos 446
+  ypos 902
  }
  Constant {
   inputs 0
@@ -152,7 +225,7 @@ push $Nf116750
   color_panelDropped true
   name Constant2
   xpos 70
-  ypos 446
+  ypos 902
  }
  Constant {
   inputs 0
@@ -161,7 +234,7 @@ push $Nf116750
   color_panelDropped true
   name Constant1
   xpos -40
-  ypos 446
+  ypos 902
  }
  Constant {
   inputs 0
@@ -170,7 +243,7 @@ push $Nf116750
   color_panelDropped true
   name Constant5
   xpos -150
-  ypos 446
+  ypos 902
  }
  Constant {
   inputs 0
@@ -179,33 +252,145 @@ push $Nf116750
   color_panelDropped true
   name Constant6
   xpos -260
-  ypos 446
+  ypos 902
  }
  Switch {
   inputs 5
   which {{parent.overlay}}
   name Colors
   xpos -40
-  ypos 662
+  ypos 1118
  }
-push $Nf19ce80
+push $Nef1fb880
  Keymix {
   inputs 3
   mix 0.2
   name Keymix2
   xpos 510
-  ypos 656
+  ypos 1112
  }
  Switch {
   inputs 2
   which {{parent.over}}
   name OverlayOrOverlap
   xpos 730
-  ypos 662
+  ypos 1118
+ }
+set N8ff06380 [stack 0]
+ Dot {
+  name Dot10
+  xpos 874
+  ypos 1122
+ }
+ Dot {
+  name Dot9
+  xpos 874
+  ypos 1338
+ }
+push $N1192aa80
+push $N11891880
+ Dot {
+  name Dot6
+  xpos 1424
+  ypos 210
+ }
+ Dot {
+  name Dot5
+  xpos 1424
+  ypos 906
+ }
+set N11368380 [stack 0]
+ Clamp {
+  channels alpha
+  name Clamp1
+  xpos 1500
+  ypos 896
+ }
+push $N11368380
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge1
+  xpos 1390
+  ypos 950
+ }
+ Clamp {
+  name Clamp2
+  xpos 1390
+  ypos 1208
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {1 0 0 0}
+  color_panelDropped true
+  name Constant9
+  xpos 1280
+  ypos 926
+ }
+set N118cd180 [stack 0]
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy3
+  xpos 1280
+  ypos 1208
+ }
+ Premult {
+  name Premult1
+  xpos 1280
+  ypos 1262
+ }
+push $N118cd180
+ Invert {
+  name Invert3
+  xpos 1170
+  ypos 944
+ }
+push $N11330000
+ Dot {
+  name Dot8
+  xpos 984
+  ypos 522
+ }
+ Merge2 {
+  inputs 2
+  name Merge3
+  xpos 950
+  ypos 950
+ }
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 950
+  ypos 1262
+ }
+push $N8ff06380
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos 730
+  ypos 1256
+ }
+ Keymix {
+  inputs 3
+  name Keymix3
+  xpos 730
+  ypos 1328
+  disable {{parent.exposure}}
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy2
+  xpos 730
+  ypos 1376
  }
  Output {
   name Output1
   xpos 730
-  ypos 758
+  ypos 1454
  }
 end_group
