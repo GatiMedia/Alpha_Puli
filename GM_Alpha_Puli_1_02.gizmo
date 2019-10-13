@@ -584,6 +584,7 @@ push $N96572a80
   channels rgb
   color {1 0 1 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant19
   xpos 5240
   ypos -897
@@ -593,6 +594,7 @@ push $N96572a80
   channels rgb
   color {0 1 0 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant17
   xpos 5130
   ypos -897
@@ -602,6 +604,7 @@ push $N96572a80
   channels rgb
   color {1 1 0 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant18
   xpos 5020
   ypos -897
@@ -611,6 +614,7 @@ push $N96572a80
   channels rgb
   color {0 0 1 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant20
   xpos 4910
   ypos -897
@@ -620,6 +624,7 @@ push $N96572a80
   channels rgb
   color {1 0 0 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant12
   xpos 4800
   ypos -897
@@ -1025,6 +1030,7 @@ push $N965c0e00
  }
  CheckerBoard2 {
   inputs 0
+  format {{{Reformat_MAIN.format}}}
   centerlinewidth 0
   name CheckerBoard1
   xpos 3590
@@ -1035,6 +1041,7 @@ push $N965c0e00
   channels rgb
   color {1 1 1 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant14
   xpos 3480
   ypos -873
@@ -1044,6 +1051,7 @@ push $N965c0e00
   channels rgb
   color {0 0 0 0}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant15
   xpos 3370
   ypos -873
@@ -1052,6 +1060,7 @@ push $N965c0e00
   inputs 0
   channels rgb
   color 0.18
+  format {{{Reformat_MAIN.format}}}
   name Constant16
   xpos 3260
   ypos -873
@@ -1512,6 +1521,8 @@ set N9681f180 [stack 0]
  }
  Reformat {
   name Reformat_MAIN
+  note_font "Verdana Bold"
+  note_font_size 21
   xpos 400
   ypos 950
  }
@@ -1531,6 +1542,7 @@ set N9681e380 [stack 0]
   channels alpha
   color {1 1 1 1}
   color_panelDropped true
+  format {{{Reformat_MAIN.format}}}
   name Constant10
   xpos 510
   ypos 1520
@@ -1757,6 +1769,7 @@ push $N968b2380
   inputs 0
   channels rgb
   color {1 0 0 0}
+  format {{{Reformat_MAIN.format}}}
   name Constant9
   xpos 1720
   ypos 831
